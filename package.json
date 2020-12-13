@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "serve": "live-server public --port=5555",
-    "dev": "babel src/app-person.js --out-file public/js/index.js --source-maps --watch --presets=@babel/preset-env,@babel/preset-react"
+    "babel": "babel src/app-components.js --out-file public/js/index.js --source-maps --watch --presets=@babel/preset-env,@babel/preset-react",
+    "dev" : "npm run babel | npm run serve"
   },
   "repository": {
     "type": "git",
