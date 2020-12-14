@@ -48,6 +48,7 @@ var BooksApp = /*#__PURE__*/function (_React$Component) {
     _this.chooseBook = _this.chooseBook.bind(_assertThisInitialized(_this));
     _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
     _this.deleteAllBooks = _this.deleteAllBooks.bind(_assertThisInitialized(_this));
+    _this.deleteOneBook = _this.deleteOneBook.bind(_assertThisInitialized(_this));
     _this.state = {
       books: [{
         title: 'Dune',
@@ -61,7 +62,8 @@ var BooksApp = /*#__PURE__*/function (_React$Component) {
       }, {
         title: 'Atlas Shrugged',
         author: 'Ayn Rand'
-      }]
+      }],
+      error: undefined
     };
     return _this;
   }
@@ -77,15 +79,32 @@ var BooksApp = /*#__PURE__*/function (_React$Component) {
     key: "onSubmit",
     value: function onSubmit(e) {
       e.preventDefault();
-      var title = e.target.elements.title.value;
-      var author = e.target.elements.author.value;
-      this.setState({
-        books: [].concat(_toConsumableArray(this.state.books), [{
-          title: title,
-          author: author
-        }])
-      });
+      var title = e.target.elements.title.value.trim();
+      var author = e.target.elements.author.value.trim();
+
+      if (this.state.books.some(function (item) {
+        return item.title.toLowerCase() === title.toLowerCase();
+      })) {
+        alert('Title already exists');
+      } else {
+        this.setState({
+          books: [].concat(_toConsumableArray(this.state.books), [{
+            title: title,
+            author: author
+          }])
+        });
+      }
+
       e.target.reset();
+    }
+  }, {
+    key: "deleteOneBook",
+    value: function deleteOneBook(book) {
+      this.setState({
+        books: _toConsumableArray(this.state.books.filter(function (item) {
+          return item.title !== book.title;
+        }))
+      });
     }
   }, {
     key: "deleteAllBooks",
@@ -107,9 +126,11 @@ var BooksApp = /*#__PURE__*/function (_React$Component) {
         books: this.state.books,
         chooseBook: this.chooseBook
       }), /*#__PURE__*/React.createElement(Books, {
-        books: this.state.books
+        books: this.state.books,
+        deleteOneBook: this.deleteOneBook
       }), /*#__PURE__*/React.createElement(AddBook, {
-        onSubmit: this.onSubmit
+        onSubmit: this.onSubmit,
+        error: this.state.error
       }), " ", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement(DeleteAllBooks, {
         deleteAllBooks: this.deleteAllBooks
       }));
@@ -179,7 +200,8 @@ var Books = /*#__PURE__*/function (_React$Component4) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, this.props.books.length ? "Hay ".concat(this.props.books.length, " libros") : "No hay libros disponibles", " "), /*#__PURE__*/React.createElement(Book, {
-        books: this.props.books
+        books: this.props.books,
+        deleteOneBook: this.props.deleteOneBook
       }));
     }
   }]);
@@ -201,10 +223,14 @@ var Book = /*#__PURE__*/function (_React$Component5) {
   _createClass(Book, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("ul", null, this.props.books.map(function (book, index) {
         return /*#__PURE__*/React.createElement("li", {
           key: index
-        }, book.title, " / ", book.author);
+        }, book.title, " / ", book.author, " ", /*#__PURE__*/React.createElement("button", {
+          onClick: _this2.props.deleteOneBook.bind(_this2, book)
+        }, "X"));
       })));
     }
   }]);

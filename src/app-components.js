@@ -4,13 +4,15 @@ class BooksApp extends React.Component{
         this.chooseBook = this.chooseBook.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.deleteAllBooks = this.deleteAllBooks.bind(this)
+        this.deleteOneBook = this.deleteOneBook.bind(this)
         this.state = {
             books : [
                 {title: 'Dune', author: 'Frank Herbert'},
                 {title: 'Stormlight Archive', author: 'Brandon Sanderson'},
                 {title: 'The Gambler', author: 'Fyodor Dostoyevsky'},
                 {title: 'Atlas Shrugged', author: 'Ayn Rand'}
-                ]
+                ],
+            error: undefined
         }
     }
     chooseBook(e){
@@ -19,13 +21,25 @@ class BooksApp extends React.Component{
         alert(`Book title: ${this.state.books[randomBook].title} Written by: ${this.state.books[randomBook].author} `)
     }
 
+
+
     onSubmit(e){
         e.preventDefault()
-        let title = e.target.elements.title.value
-        let author = e.target.elements.author.value
-        this.setState({books: [...this.state.books, {title, author}]})
+        let title = e.target.elements.title.value.trim()
+        let author = e.target.elements.author.value.trim()
+
+        if(this.state.books.some(item => item.title.toLowerCase() === title.toLowerCase())){
+            alert('Title already exists')
+        } else {
+            this.setState({books: [...this.state.books, {title, author}]})
+        }
         e.target.reset()
     }
+    
+    deleteOneBook(book){
+        this.setState({books: [...this.state.books.filter((item)=> item.title !== book.title)]})
+    }
+
 
     deleteAllBooks(e){
         e.preventDefault()
@@ -39,8 +53,8 @@ class BooksApp extends React.Component{
             <div>
                 <Header title={title} subTitle={subTitle}/>
                 <RecommendBook books={this.state.books}  chooseBook={this.chooseBook}/>       
-                <Books books={this.state.books}/>
-                <AddBook onSubmit={this.onSubmit}/> <br></br>
+                <Books books={this.state.books} deleteOneBook={this.deleteOneBook}/>
+                <AddBook onSubmit={this.onSubmit} error={this.state.error}/> <br></br>
                 <DeleteAllBooks deleteAllBooks={this.deleteAllBooks} />     
             </div>
         )
@@ -75,7 +89,7 @@ class Books extends React.Component{
     return(
         <div>
             <p>{this.props.books.length? `Hay ${this.props.books.length} libros` : `No hay libros disponibles`} </p>
-                <Book books={this.props.books}/>
+                <Book books={this.props.books} deleteOneBook={this.props.deleteOneBook} />
         </div>
     )   
    }
@@ -87,7 +101,9 @@ class Book extends React.Component{
         <div>
             <ul>
                 {this.props.books.map((book, index) => {
-                    return <li key={index}>{book.title} / {book.author}</li>
+                    return (
+                        <li key={index}>{book.title} / {book.author} <button onClick={this.props.deleteOneBook.bind(this, book)}>X</button></li> 
+                    )
                 })}
             </ul>
         </div>
@@ -96,9 +112,11 @@ class Book extends React.Component{
 }
 
 class AddBook extends React.Component{
+
     render(){
     return(
         <div>
+            {/* {this.props.state.error && <p>{this.props.state.error}</p>} */}
             <form onSubmit={this.props.onSubmit}>
               <label htmlFor="title">Título: </label>
               <input type="text" id="title" name="title"  required />
@@ -122,3 +140,7 @@ class DeleteAllBooks extends React.Component {
 }
 
 ReactDOM.render(<BooksApp/>, document.querySelector('#appRoot'))
+
+
+
+
