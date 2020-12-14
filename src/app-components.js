@@ -6,10 +6,10 @@ class BooksApp extends React.Component{
         this.deleteAllBooks = this.deleteAllBooks.bind(this)
         this.state = {
             books : [
-                {title: 'El título del libro 1', author: 'El autor del libro 1'},
-                {title: 'El título del libro 2', author: 'El autor de libro 2'},
-                {title: 'El título del libro 3', author: 'El autor de libro 3'},
-                {title: 'El título del libro 4', author: 'El autor de libro 4'}
+                {title: 'Dune', author: 'Frank Herbert'},
+                {title: 'Stormlight Archive', author: 'Brandon Sanderson'},
+                {title: 'The Gambler', author: 'Fyodor Dostoyevsky'},
+                {title: 'Atlas Shrugged', author: 'Ayn Rand'}
                 ]
         }
     }

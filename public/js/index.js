@@ -50,17 +50,17 @@ var BooksApp = /*#__PURE__*/function (_React$Component) {
     _this.deleteAllBooks = _this.deleteAllBooks.bind(_assertThisInitialized(_this));
     _this.state = {
       books: [{
-        title: 'El título del libro 1',
-        author: 'El autor del libro 1'
+        title: 'Dune',
+        author: 'Frank Herbert'
       }, {
-        title: 'El título del libro 2',
-        author: 'El autor de libro 2'
+        title: 'Stormlight Archive',
+        author: 'Brandon Sanderson'
       }, {
-        title: 'El título del libro 3',
-        author: 'El autor de libro 3'
+        title: 'The Gambler',
+        author: 'Fyodor Dostoyevsky'
       }, {
-        title: 'El título del libro 4',
-        author: 'El autor de libro 4'
+        title: 'Atlas Shrugged',
+        author: 'Ayn Rand'
       }]
     };
     return _this;
