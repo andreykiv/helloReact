@@ -13,12 +13,12 @@
     "url": "git+https://github.com/xavieur/hello-react.git"
   },
   "keywords": [],
-  "author": "Xavier Valera",
+  "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xavieur/hello-react/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/xavieur/hello-react#readme",
+  "homepage": "",
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
